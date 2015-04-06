@@ -38,8 +38,8 @@ public class CityListFragment extends Fragment
 		CityDataModel newYork = new CityDataModel("New York", "40.7127", "-74.0059");
 		CityDataModel london = new CityDataModel("London", "51.5072", "-0.1275");
 		CityDataModel losAngeles = new CityDataModel("Los Angeles", "34.0500", "-118.2500");
-		CityDataModel paris = new CityDataModel("Paris", "48.8567", "-2.3508");
-		CityDataModel tokyo = new CityDataModel("Tokyo", "35.6833", "-139.6833");
+		CityDataModel paris = new CityDataModel("Paris", "48.8567", "2.3508");
+		CityDataModel tokyo = new CityDataModel("Tokyo", "35.6833", "139.6833");
 
 		mCityList.add(newYork);
 		mCityList.add(london);

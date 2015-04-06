@@ -38,13 +38,22 @@ import models.WeeklyWeatherDataModel;
 public class WeeklyWeatherFragment extends Fragment
 {
 
-	private ListView mListView;
+	public static String CURRENTLY_KEY = "currently";
+	public static String SUMMARY_KEY = "summary";
+	public static String TEMP_MAX_KEY  = "temperatureMax";
+	public static String TEMP_MIN_KEY  = "temperatureMin";
+	public static String TEMP_KEY  = "temperature";
+	public static String DATA_KEY  = "data";
+	public static String DAILY_KEY = "daily";
+
+	private ListView    mListView;
 	private ProgressBar mProgressBar;
 
 	private TextView currentTemperature;
 	private TextView currentSummary;
 	private TextView weeklySummary;
-	private MyWeatherDataModel myWeatherDataModel = new MyWeatherDataModel();;
+	private MyWeatherDataModel myWeatherDataModel = new MyWeatherDataModel();
+	;
 
 	private WeeklyWeatherAdapter mWeeklyWeatherAdapter;
 
@@ -74,6 +83,7 @@ public class WeeklyWeatherFragment extends Fragment
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
 		View rootView = inflater.inflate(R.layout.fragment_weekly, container, false);
+		// Get our UI elements
 		mListView = (ListView)rootView.findViewById(R.id.listview);
 		currentSummary = (TextView)rootView.findViewById(R.id.current_summary);
 		currentTemperature = (TextView)rootView.findViewById(R.id.current_temperature);
@@ -164,25 +174,25 @@ public class WeeklyWeatherFragment extends Fragment
 			JSONObject myWeatherJson = new JSONObject(result);
 			ArrayList<WeeklyWeatherDataModel> weeklyWeatherDataModels = new ArrayList<>();
 
-			if (myWeatherJson.getJSONObject("currently") != null)
+			if (myWeatherJson.getJSONObject(CURRENTLY_KEY) != null)
 			{
-				JSONObject currentWeatherJson = myWeatherJson.getJSONObject("currently");
-				myWeatherDataModel.setCurrentSummary(currentWeatherJson.getString("summary"));
-				myWeatherDataModel.setCurrentTemperature(currentWeatherJson.getString("temperature"));
+				JSONObject currentWeatherJson = myWeatherJson.getJSONObject(CURRENTLY_KEY);
+				myWeatherDataModel.setCurrentSummary(currentWeatherJson.getString(SUMMARY_KEY));
+				myWeatherDataModel.setCurrentTemperature(currentWeatherJson.getString(TEMP_KEY));
 
 				currentSummary.setText(myWeatherDataModel.getCurrentSummary());
 				currentTemperature.setText("Current: " + myWeatherDataModel.getCurrentTemperature() + " °F");
 			}
 
-			if (myWeatherJson.getJSONObject("daily") != null)
+			if (myWeatherJson.getJSONObject(DAILY_KEY) != null)
 			{
 
-				JSONObject dailyJson = myWeatherJson.getJSONObject("daily");
+				JSONObject dailyJson = myWeatherJson.getJSONObject(DAILY_KEY);
 
-				myWeatherDataModel.setSummaryOfTheWeek(dailyJson.getString("summary"));
+				myWeatherDataModel.setSummaryOfTheWeek(dailyJson.getString(SUMMARY_KEY));
 				weeklySummary.setText(myWeatherDataModel.getSummaryOfTheWeek());
 
-				JSONArray weeklyJsonArray = dailyJson.getJSONArray("data");
+				JSONArray weeklyJsonArray = dailyJson.getJSONArray(DATA_KEY);
 
 				for (int i = 0; i < weeklyJsonArray.length(); i++)
 				{
@@ -191,9 +201,9 @@ public class WeeklyWeatherFragment extends Fragment
 
 					if (weeklyJson != null)
 					{
-						weeklyWeatherData.setSummaryOfTheDay(weeklyJson.getString("summary"));
-						weeklyWeatherData.setTemperatureMax(weeklyJson.getString("temperatureMax"));
-						weeklyWeatherData.setTemperatureMin(weeklyJson.getString("temperatureMin"));
+						weeklyWeatherData.setSummaryOfTheDay(weeklyJson.getString(SUMMARY_KEY));
+						weeklyWeatherData.setTemperatureMax(weeklyJson.getString(TEMP_MAX_KEY));
+						weeklyWeatherData.setTemperatureMin(weeklyJson.getString(TEMP_MIN_KEY));
 					}
 
 					weeklyWeatherDataModels.add(weeklyWeatherData);
